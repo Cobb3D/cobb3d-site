@@ -5,6 +5,7 @@
     "tagline": "Small-batch 3D printing. Home of KeyCapForge.",
     "currency": "USD",
     "checkoutEndpoint": "",
+    "adminApi": "https://api.cobb3dprinting.com",
     "designerUrl": "https://design.cobb3dprinting.com/",
     "etsyUrl": "",
     "contactEmail": "",

@@ -1,0 +1,18 @@
+name = "cobb3d-admin"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+# Serve at https://api.cobb3dprinting.com (Cloudflare creates the DNS record).
+routes = [{ pattern = "api.cobb3dprinting.com", custom_domain = true }]
+
+[vars]
+SITE_URL = "https://cobb3dprinting.com"
+REPO = "Cobb3D/cobb3d-site"
+BRANCH = "main"
+ALLOWED_LOGINS = "Cobb3D"
+GITHUB_CLIENT_ID = ""   # from your GitHub OAuth App
+
+# Secrets (never put these in this file):
+#   npx wrangler secret put GITHUB_CLIENT_SECRET
+#   npx wrangler secret put GITHUB_TOKEN
+#   npx wrangler secret put SESSION_SECRET

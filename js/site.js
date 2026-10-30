@@ -456,68 +456,6 @@
     writeCart([]);
   }
 
-  async function pageAdmin() {
-    const s = await loadStore();
-    const f = $('#admin');
-    $('#a-cat').innerHTML = s.categories.map((c) => '<option value="' + esc(c.id) + '">' + esc(c.name) + '</option>').join('');
-    $('#a-theme').innerHTML = '<option value="">Buyer picks (or none)</option>' + s.options.theme.choices.map((t) => '<option>' + esc(t.name) + '</option>').join('');
-    const slug = (t) => t.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    let idTouched = false;
-    $('#a-id').addEventListener('input', () => { idTouched = true; });
-
-    function build() {
-      const v = (id) => ($('#' + id).value || '').trim();
-      if (!idTouched) $('#a-id').value = slug(v('a-name'));
-      const p = { id: v('a-id'), name: v('a-name'), category: v('a-cat') };
-      const priceVal = parseFloat(v('a-price'));
-      p.price = isFinite(priceVal) ? priceVal : null;
-      if ($('#a-featured').checked) p.featured = true;
-      if (v('a-badge')) p.badge = v('a-badge');
-      p.description = v('a-desc');
-      p.images = v('a-images').split(/[\n,]+/).map((x) => x.trim()).filter(Boolean);
-      p.options = $$('input[name=a-opt]:checked').map((i) => i.value);
-      if (p.options.includes('letters')) p.letters = { max: parseInt(v('a-max'), 10) || 6, default: v('a-default').toUpperCase() || 'ABC' };
-      if (p.options.includes('size')) {
-        p.sizes = v('a-sizes').split('\n').map((l) => l.trim()).filter(Boolean).map((l) => {
-          const m = l.split('=');
-          const pr = parseFloat(m[1]);
-          return { name: m[0].trim(), price: isFinite(pr) ? pr : null };
-        });
-      }
-      if (v('a-theme')) p.fixedTheme = v('a-theme');
-      const specs = {};
-      v('a-specs').split('\n').forEach((l) => { const i = l.indexOf(':'); if (i > 0) specs[l.slice(0, i).trim()] = l.slice(i + 1).trim(); });
-      p.specs = specs;
-      $('#a-out').textContent = JSON.stringify(p, null, 2);
-      $('#a-sizes-wrap').hidden = !p.options.includes('size');
-      $('#a-letters-wrap').hidden = !p.options.includes('letters');
-      const preview = $('#a-preview');
-      preview.innerHTML = p.name ? cardHTML(s, p) : '';
-      return p;
-    }
-    f.addEventListener('input', build);
-    f.addEventListener('change', build);
-    $('#a-copy').addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText($('#a-out').textContent); $('#a-status').textContent = 'Copied.'; }
-      catch (e) { $('#a-status').textContent = 'Copy failed. Select the text and copy it manually.'; }
-    });
-    $('#a-download').addEventListener('click', async () => {
-      const p = build();
-      if (!p.id || !p.name) { $('#a-status').textContent = 'Give the product a name first.'; return; }
-      const res = await fetch('products.json', { cache: 'no-cache' });
-      const all = await res.json();
-      const i = all.products.findIndex((x) => x.id === p.id);
-      if (i >= 0) all.products[i] = p; else all.products.push(p);
-      const blob = new Blob([JSON.stringify(all, null, 2) + '\n'], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob); a.download = 'products.json'; a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-      $('#a-status').textContent = (i >= 0 ? 'Updated' : 'Added') + ' “' + p.name + '”. Replace products.json in your site with the downloaded file.';
-    });
-    build();
-  }
-
-
   // ---------- light / dark look (same behavior as KeyCapForge) ----------
   const THEME_KEY = 'cobb3d.pageTheme';
   function initTheme() {
@@ -546,12 +484,33 @@
     }
   }
 
+
+  // ---------- owner admin bar (shows only after the owner has signed in on admin.html) ----------
+  async function initAdminBar(s, page) {
+    let flagged = false;
+    try { flagged = localStorage.getItem('cobb3d.admin') === '1'; } catch (e) { flagged = false; }
+    const apiBase = ((s.store && s.store.adminApi) || '').replace(/\/+$/, '');
+    if (!flagged || !apiBase || page === 'admin') return;
+    let me = null;
+    try {
+      const r = await fetch(apiBase + '/me', { credentials: 'include' });
+      if (r.status === 401) { try { localStorage.removeItem('cobb3d.admin'); } catch (e) { /* ignore */ } return; }
+      if (r.ok) me = (await r.json()).login;
+    } catch (e) { return; }
+    if (!me) return;
+    const id = params.get('id');
+    const links = ['<a href="admin.html">Dashboard</a>'];
+    if (page === 'product' && id && s.products.some((p) => p.id === id)) links.push('<a href="admin.html#edit=' + encodeURIComponent(id) + '"><strong>Edit this product</strong></a>');
+    links.push('<a href="admin.html#new">Add product</a>', '<a href="admin.html#settings">Store settings</a>');
+    document.body.insertAdjacentHTML('afterbegin', '<div class="admin-bar" role="region" aria-label="Owner tools"><span>Signed in as <strong>' + esc(me) + '</strong></span><nav>' + links.join('') + '</nav></div>');
+  }
+
   // ---------- boot ----------
   async function boot() {
     initTheme();
     updateCartCount();
     const page = document.body.dataset.page;
-    const pages = { home: pageHome, shop: pageShop, product: pageProduct, cart: pageCart, designer: pageDesigner, thanks: pageThanks, admin: pageAdmin };
+    const pages = { home: pageHome, shop: pageShop, product: pageProduct, cart: pageCart, designer: pageDesigner, thanks: pageThanks };
     try {
       const s = await loadStore();
       $$('[data-store-name]').forEach((el) => { el.textContent = s.store.name; });
@@ -563,12 +522,14 @@
       $$('[data-contact]').forEach((el) => { if (s.store.contactEmail) { el.href = 'mailto:' + s.store.contactEmail; el.hidden = false; } });
       $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
       if (pages[page]) await pages[page]();
+      initAdminBar(s, page);
     } catch (err) {
       const main = $('main');
       if (main) main.insertAdjacentHTML('afterbegin', '<div class="wrap"><p class="alert" role="alert" style="margin-top:24px">Something went wrong loading the store: ' + esc(err.message) + '</p></div>');
       console.error(err);
     }
   }
+  window.Cobb3DSite = { cardHTML, mediaHTML, keycapHTML, esc, money };
   window.addEventListener('storage', (e) => { if (e.key === CART_KEY) updateCartCount(); });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

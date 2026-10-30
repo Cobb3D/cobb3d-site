@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · Cobb3D Printing</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="images/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/brand/favicon-192.png">
+<link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script>
+  // Light or dark look, set before the page draws (see initTheme in js/site.js).
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('cobb3d.pageTheme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+    document.documentElement.dataset.theme = t;
+  })();
+</script>
+<link rel="stylesheet" href="css/site.css?v=2026103003">
+</head>
+<body data-page="admin">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header admin-header"><div class="wrap">
+  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Cobb3D · Admin</span></a>
+  <nav class="main-nav" aria-label="Admin">
+    <a href="#products" data-nav="products">Products</a>
+    <a href="#settings" data-nav="settings">Store settings</a>
+    <a href="index.html">View site ↗</a>
+  </nav>
+  <button type="button" class="theme-btn" id="themeBtn" title="Switch to the light look" aria-label="Switch to the light look" aria-pressed="false"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.6.5 1 1.2 1.1 2V17h5.6v-.8c.1-.8.5-1.5 1.1-2A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-base" d="M9.4 18.5h5.2M9.9 20.5h4.2"/><path class="bulb-rays" d="M12 .2v1.1M3.4 3.6l.8.8M20.6 3.6l-.8.8M1 9.5h1.2M21.8 9.5H23"/></svg></button>
+  <button type="button" class="btn btn-ghost btn-sm" id="signOut" hidden>Sign out</button>
+</div></header>
+
+<main id="main" class="wrap" style="padding-top:28px;padding-bottom:64px">
+  <p class="alert" id="status" role="status" aria-live="polite" hidden></p>
+  <div id="app"><p class="muted">Loading…</p></div>
+</main>
+<script src="js/site.js?v=2026103003" defer></script>
+<script src="js/admin.js?v=2026103003" defer></script>
+</body>
+</html>
