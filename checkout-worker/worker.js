@@ -101,8 +101,9 @@ function toLineItem(item, catalog) {
   const o = catalog.options || {};
   const notes = [];
 
-  if (opts.switch != null) {
-    if (!((o.switch && o.switch.choices) || []).includes(opts.switch)) throw httpError('Unknown switch option', 400);
+  // Switch choice: only used if products.json offers switch options (it doesn't right now).
+  if (opts.switch != null && o.switch && o.switch.choices) {
+    if (!o.switch.choices.includes(opts.switch)) throw httpError('Unknown switch option', 400);
     notes.push('Switch: ' + opts.switch);
   }
 

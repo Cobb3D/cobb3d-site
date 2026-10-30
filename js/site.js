@@ -202,7 +202,6 @@
     const sel = { qty: 1, img: 0 };
     if (opts.includes('letters')) sel.letters = (p.letters && p.letters.default) || '';
     if (opts.includes('theme') && !p.fixedTheme) sel.theme = s.options.theme.choices[0].name;
-    if (opts.includes('switch')) sel.switch = s.options.switch.choices[1] || s.options.switch.choices[0];
     if (opts.includes('color')) sel.color = s.options.color.choices[0].name;
     if (opts.includes('size') && p.sizes && p.sizes.length) sel.size = p.sizes[0].name;
 
@@ -256,11 +255,6 @@
     if (sel.size) {
       html += '<fieldset style="border:0;margin:0 0 22px;padding:0"><legend class="field-label">Size</legend><div class="seg">' +
         p.sizes.map((z) => '<button type="button" data-size="' + esc(z.name) + '">' + esc(z.name) + (isNum(z.price) ? '<br><small>' + esc(money(z.price, s)) + '</small>' : '') + '</button>').join('') +
-        '</div></fieldset>';
-    }
-    if (sel.switch) {
-      html += '<fieldset style="border:0;margin:0;padding:0"><legend class="field-label">Switch</legend><div class="seg">' +
-        s.options.switch.choices.map((c) => '<button type="button" data-switch="' + esc(c) + '">' + esc(c) + '</button>').join('') +
         '</div></fieldset>';
     }
     optsEl.innerHTML = html;
@@ -431,9 +425,8 @@
     const frame = $('#kcf');
     frame.src = s.store.designerUrl;
     const c = s.customDesign || {};
-    const keysEl = $('#d-keys'), swEl = $('#d-switch'), designEl = $('#d-design'), notesEl = $('#d-notes');
+    const keysEl = $('#d-keys'), designEl = $('#d-design'), notesEl = $('#d-notes');
     keysEl.max = c.maxKeys || 8;
-    swEl.innerHTML = s.options.switch.choices.map((x, i) => '<option' + (i === 1 ? ' selected' : '') + '>' + esc(x) + '</option>').join('');
     function price() {
       const keys = Math.max(1, Math.min(c.maxKeys || 8, parseInt(keysEl.value, 10) || 1));
       const u = unitPrice(s, { id: '__custom__', custom: { keys } });
@@ -453,7 +446,7 @@
     });
     $('#d-add').addEventListener('click', () => {
       const keys = price();
-      addToCart({ id: '__custom__', qty: 1, opts: { switch: swEl.value }, custom: { keys, design: designEl.value.trim(), notes: notesEl.value.trim() } });
+      addToCart({ id: '__custom__', qty: 1, opts: {}, custom: { keys, design: designEl.value.trim(), notes: notesEl.value.trim() } });
       $('#d-added').hidden = false;
     });
     price();

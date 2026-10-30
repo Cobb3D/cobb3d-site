@@ -20,10 +20,6 @@
   ],
 
   "options": {
-    "switch": {
-      "label": "Switch",
-      "choices": ["Cherry MX Red (linear)", "Cherry MX Brown (tactile)", "Cherry MX Blue (clicky)"]
-    },
     "theme": {
       "label": "Theme",
       "choices": [
@@ -66,7 +62,7 @@
       "badge": "Personalize",
       "description": "Up to six letters, one per key, each on a real Cherry MX switch you can press all day. Printed to order in the theme you choose.",
       "images": [],
-      "options": ["letters", "theme", "switch"],
+      "options": ["letters", "theme"],
       "letters": { "max": 6, "default": "YOU" },
       "specs": { "Material": "[MATERIAL]", "Size": "Depends on letter count", "Keyring": "Included" }
     },
@@ -95,7 +91,7 @@
       "badge": "Personalize",
       "description": "Your logo printed in up to three colors on one big key over a real Cherry MX switch. Design it in KeyCapForge, then add it to your cart.",
       "images": [],
-      "options": ["switch"],
+      "options": [],
       "designLink": true,
       "preview": { "base": "#3D7BD9", "caps": [["C3", "#FFFFFF", "#3D7BD9"]] },
       "specs": { "Material": "[MATERIAL]", "Size": "[DIMENSIONS]" }
@@ -119,7 +115,7 @@
       "badge": "Personalize",
       "description": "Black-and-white cow styling on a real clicky keychain. Spell whatever you like.",
       "images": [],
-      "options": ["letters", "switch"],
+      "options": ["letters"],
       "letters": { "max": 6, "default": "MOO" },
       "fixedTheme": "Cow",
       "specs": { "Material": "[MATERIAL]", "Keyring": "Included" }
@@ -130,9 +126,9 @@
       "category": "keychains",
       "price": null,
       "badge": "Personalize",
-      "description": "Woodland camo caps and base. Pick your letters and switch.",
+      "description": "Woodland camo caps and base. Pick your letters.",
       "images": [],
-      "options": ["letters", "switch"],
+      "options": ["letters"],
       "letters": { "max": 6, "default": "GO" },
       "fixedTheme": "Woodland Camo",
       "specs": { "Material": "[MATERIAL]", "Keyring": "Included" }

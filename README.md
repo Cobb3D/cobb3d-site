@@ -50,7 +50,7 @@ The cart sends people to a secure Square checkout page. Card details never touch
 4. Copy the worker's address (`https://cobb3d-checkout.<you>.workers.dev`) into `store.checkoutEndpoint` in `products.json`.
 5. Place a test order using Square's sandbox test card. When it works, switch to your **production** token and set `SQUARE_ENV` to `production`.
 
-The worker looks up prices in your live `products.json`, so nobody can change a price in their browser. Orders, with each buyer's letters, color, size, switch and design notes, show up in your Square Dashboard alongside your in-person sales.
+The worker looks up prices in your live `products.json`, so nobody can change a price in their browser. Orders, with each buyer's letters, color, size and design notes, show up in your Square Dashboard alongside your in-person sales.
 
 ## 4. Put it online (free)
 
@@ -99,7 +99,7 @@ The site only accepts these messages from the address in `store.designerUrl`. De
 
 ## Making sure visitors see your changes
 
-Browsers (Safari especially) hold on to old copies of `css/site.css` and `js/site.js`. Every page loads them as `site.css?v=2026103001` and `site.js?v=2026103001`. After you change either file, change that number in all the pages (VS Code: **Edit → Replace in Files**, `v=2026103001` → a new number such as today's date), so browsers fetch the new version straight away.
+Browsers (Safari especially) hold on to old copies of `css/site.css` and `js/site.js`. Every page loads them as `site.css?v=2026103002` and `site.js?v=2026103002`. After you change either file, change that number in all the pages (VS Code: **Edit → Replace in Files**, `v=2026103002` → a new number such as today's date), so browsers fetch the new version straight away.
 
 ## Notes
 
