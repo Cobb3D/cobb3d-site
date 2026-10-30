@@ -115,7 +115,7 @@
       '<span class="price">' + ((p.sizes && p.sizes.length > 1) ? 'From ' : '') + esc(money(price, s)) + '</span>';
     const url = 'product.html?id=' + encodeURIComponent(p.id);
     return '<article class="card">' +
-      '<a class="card-media" href="' + url + '" style="background:' + esc(cat.tint) + '" tabindex="-1" aria-hidden="true">' +
+      '<a class="card-media tinted" href="' + url + '" style="--tint:' + esc(cat.tint) + '" tabindex="-1" aria-hidden="true">' +
         (p.badge ? '<span class="badge">' + esc(p.badge) + '</span>' : '') + mediaHTML(s, p) +
       '</a>' +
       '<div class="card-body">' +
@@ -133,7 +133,7 @@
     if (grid) grid.innerHTML = (featured.length ? featured : s.products.slice(0, 4)).map((p) => cardHTML(s, p)).join('');
     const tiles = $('#tiles');
     if (tiles) tiles.innerHTML = s.categories.map((c) =>
-      '<a class="tile" href="shop.html?cat=' + encodeURIComponent(c.id) + '" style="background:' + esc(c.tint) + '"><strong>' + esc(c.name) + '</strong><span>' + esc(c.blurb || '') + '</span></a>'
+      '<a class="tile tinted" href="shop.html?cat=' + encodeURIComponent(c.id) + '" style="--tint:' + esc(c.tint) + '"><strong>' + esc(c.name) + '</strong><span>' + esc(c.blurb || '') + '</span></a>'
     ).join('');
   }
 
@@ -213,7 +213,7 @@
       '<nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <a href="shop.html?cat=' + encodeURIComponent(cat.id) + '">' + esc(cat.name) + '</a> / ' + esc(p.name) + '</nav>' +
       '<div class="pdp">' +
         '<section class="gallery" aria-label="Photos">' +
-          '<div class="stage" id="stage" style="background:' + esc(cat.tint) + '"></div>' +
+          '<div class="stage tinted" id="stage" style="--tint:' + esc(cat.tint) + '"></div>' +
           ((imgs.length + (hasIllustration && imgs.length ? 1 : 0)) > 1 ? '<div class="thumbs" id="thumbs"></div>' : '') +
         '</section>' +
         '<section class="buy" aria-label="Product details">' +
@@ -286,7 +286,7 @@
     function drawThumbs() {
       const t = $('#thumbs'); if (!t) return;
       const items = [];
-      if (hasIllustration) items.push('<button type="button" data-img="0" aria-label="Live preview" aria-pressed="' + (sel.img === 0) + '" style="background:' + esc(cat.tint) + ';font-size:12px">Preview</button>');
+      if (hasIllustration) items.push('<button type="button" data-img="0" aria-label="Live preview" aria-pressed="' + (sel.img === 0) + '" class="tinted" style="--tint:' + esc(cat.tint) + ';font-size:12px">Preview</button>');
       imgs.forEach((src, i) => {
         const idx = hasIllustration ? i + 1 : i;
         items.push('<button type="button" data-img="' + idx + '" aria-label="Photo ' + (i + 1) + '" aria-pressed="' + (sel.img === idx) + '"><img src="' + esc(src) + '" alt=""></button>');
@@ -375,9 +375,9 @@
         const unit = unitPrice(s, it);
         if (unit == null) unknown = true; else subtotal += unit * it.qty;
         let thumb;
-        if (isCustom) thumb = '<div class="thumb" style="background:#DCE7F9">' + keycapHTML([['K', '#fff', '#16181D'], ['C', '#1F5FCC', '#FFFFFF'], ['F', '#fff', '#16181D']].slice(0, Math.min(3, it.custom.keys || 1)), '#16181D') + '</div>';
-        else if (p) thumb = '<div class="thumb" style="background:' + esc(category(s, p.category).tint) + '">' + mediaHTML(s, p, { letters: it.opts && it.opts.letters, theme: it.opts && it.opts.theme }) + '</div>';
-        else thumb = '<div class="thumb" style="background:#E9E5DE"></div>';
+        if (isCustom) thumb = '<div class="thumb tinted" style="--tint:#DCE7F9">' + keycapHTML([['K', '#fff', '#16181D'], ['C', '#1F5FCC', '#FFFFFF'], ['F', '#fff', '#16181D']].slice(0, Math.min(3, it.custom.keys || 1)), '#16181D') + '</div>';
+        else if (p) thumb = '<div class="thumb tinted" style="--tint:' + esc(category(s, p.category).tint) + '">' + mediaHTML(s, p, { letters: it.opts && it.opts.letters, theme: it.opts && it.opts.theme }) + '</div>';
+        else thumb = '<div class="thumb tinted"></div>';
         return '<div class="line" data-idx="' + idx + '">' + thumb +
           '<div class="info"><strong>' + (p ? '<a href="product.html?id=' + encodeURIComponent(p.id) + '" style="color:inherit">' + esc(name) + '</a>' : esc(name)) + '</strong><small>' + esc(optsSummary(it)) + '</small>' +
           '<small>' + (unit == null ? 'Price not set yet' : esc(money(unit, s)) + ' each') + '</small></div>' +
@@ -524,8 +524,38 @@
     build();
   }
 
+
+  // ---------- light / dark look (same behavior as KeyCapForge) ----------
+  const THEME_KEY = 'cobb3d.pageTheme';
+  function initTheme() {
+    const btn = $('#themeBtn');
+    const apply = (theme, remember) => {
+      document.documentElement.dataset.theme = theme;
+      if (btn) {
+        const light = theme === 'light';
+        btn.setAttribute('aria-pressed', String(light));
+        btn.title = light ? 'Switch to the dark look' : 'Switch to the light look';
+        btn.setAttribute('aria-label', btn.title);
+      }
+      if (remember) { try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* not remembered */ } }
+    };
+    const current = () => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+    apply(current(), false);
+    if (btn) btn.addEventListener('click', () => apply(current() === 'light' ? 'dark' : 'light', true));
+    if (window.matchMedia) {
+      const mq = window.matchMedia('(prefers-color-scheme: light)');
+      const follow = () => {
+        let picked = null;
+        try { picked = localStorage.getItem(THEME_KEY); } catch (e) { picked = null; }
+        if (!picked) apply(mq.matches ? 'light' : 'dark', false);
+      };
+      if (mq.addEventListener) mq.addEventListener('change', follow);
+    }
+  }
+
   // ---------- boot ----------
   async function boot() {
+    initTheme();
     updateCartCount();
     const page = document.body.dataset.page;
     const pages = { home: pageHome, shop: pageShop, product: pageProduct, cart: pageCart, designer: pageDesigner, thanks: pageThanks, admin: pageAdmin };
