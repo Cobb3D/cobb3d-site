@@ -10,6 +10,7 @@
   --dark:#16181D; --dark-2:#23262D;
   --stage:#E9E5DE; --stage-dot:#D3CDC3; --ph-bg:rgba(255,255,255,.6); --ph-line:#9AA0A8;
   --ok:#1F6B43; --ok-bg:#DDF1E5; --warn-bg:#FFF1C9;
+  --banner-bg:#FFE08A; --banner-ink:#3D2E00; --banner-line:#E8C35A;
   --display:'Space Grotesk',system-ui,sans-serif; --body:Inter,system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
   --radius:18px;
   color-scheme:light;
@@ -22,6 +23,7 @@
   --dark:#26252B; --dark-2:#312F36;
   --stage:#29282E; --stage-dot:#38363E; --ph-bg:rgba(255,255,255,.05); --ph-line:#5A5862;
   --ok:#51CF66; --ok-bg:rgba(81,207,102,.14); --warn-bg:rgba(255,169,77,.16);
+  --banner-bg:#3A3015; --banner-ink:#FFD866; --banner-line:#5A4A1C;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -37,6 +39,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .skip{position:absolute;left:-999px;top:8px;background:var(--solid);color:var(--on-solid);padding:10px 14px;border-radius:8px;z-index:10}
 .skip:focus{left:8px}
 
+/* site-wide notice bar (store.banner in products.json) */
+.site-banner{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 24px;background:var(--banner-bg);color:var(--banner-ink);font-weight:600;font-size:15px;text-align:center;border-bottom:1px solid var(--banner-line);background-image:repeating-linear-gradient(-45deg,transparent 0 14px,rgba(0,0,0,.035) 14px 28px)}
+.site-banner svg{flex:none}
 /* header */
 .site-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
 .site-header .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 32px;padding-top:12px;padding-bottom:12px}

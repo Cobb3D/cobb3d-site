@@ -1,6 +1,7 @@
 {
   "store": {
     "name": "Cobb3D Printing",
+    "banner": "This site is under construction. The shop is coming soon!",
     "tagline": "Small-batch 3D printing. Home of KeyCapForge.",
     "currency": "USD",
     "checkoutEndpoint": "",

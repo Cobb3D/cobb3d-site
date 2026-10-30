@@ -562,6 +562,10 @@
     try {
       const s = await loadStore();
       $$('[data-store-name]').forEach((el) => { el.textContent = s.store.name; });
+      // Site-wide notice bar ("banner" in products.json; delete it or set it to "" to hide).
+      if (s.store.banner && page !== 'admin' && !$('.site-banner')) {
+        document.body.insertAdjacentHTML('afterbegin', '<div class="site-banner" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>' + esc(s.store.banner) + '</span></div>');
+      }
       $$('[data-etsy]').forEach((el) => { if (s.store.etsyUrl) { el.href = s.store.etsyUrl; el.hidden = false; } });
       $$('[data-contact]').forEach((el) => { if (s.store.contactEmail) { el.href = 'mailto:' + s.store.contactEmail; el.hidden = false; } });
       $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
