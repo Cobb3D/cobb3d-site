@@ -45,7 +45,7 @@ The cart sends people to a secure Square checkout page. Card details never touch
    - `SQUARE_ACCESS_TOKEN`: the token, saved as a **secret**
    - `SQUARE_LOCATION_ID`
    - `SQUARE_ENV`: `sandbox`
-   - `SITE_URL`: your site's address, for example `https://cobb3d.github.io/cobb3d-site`
+   - `SITE_URL`: `https://cobb3dprinting.com`
    - Optional: `TAX_PERCENT` (for example `5.5`) and `SHIPPING_FLAT`
 4. Copy the worker's address (`https://cobb3d-checkout.<you>.workers.dev`) into `store.checkoutEndpoint` in `products.json`.
 5. Place a test order using Square's sandbox test card. When it works, switch to your **production** token and set `SQUARE_ENV` to `production`.
@@ -58,7 +58,28 @@ The worker looks up prices in your live `products.json`, so nobody can change a 
 
 **Cloudflare Pages** works the same way: connect the repo, with no build command.
 
-To use your own domain, add it under Settings → Pages → Custom domain, then update `SITE_URL` in the worker.
+### Connecting cobb3dprinting.com
+
+The `CNAME` file in this folder already tells GitHub Pages the site's address is `cobb3dprinting.com`.
+
+In **Cloudflare → cobb3dprinting.com → DNS → Records**, add these records with **Proxy status: DNS only** (grey cloud):
+
+| Type | Name | Content |
+|---|---|---|
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME | `www` | `cobb3d.github.io` |
+| CNAME | `design` | `cobb3d.github.io` |
+
+Then:
+
+1. In the site repo, go to **Settings → Pages → Custom domain**, enter `cobb3dprinting.com` and save. When the DNS check passes, tick **Enforce HTTPS**. The certificate can take up to an hour.
+2. In the **KeyCapForgeWeb** repo, set its Custom domain to `design.cobb3dprinting.com` the same way. The old `cobb3d.github.io/KeyCapForgeWeb` link redirects there automatically.
+3. Recommended: in your GitHub profile, go to **Settings → Pages → Add a domain** and verify `cobb3dprinting.com`. This stops anyone else from pointing a GitHub site at your domain.
+
+`products.json` already points the designer at `https://design.cobb3dprinting.com/`, so finish step 2 before you publish this version, or the Design page will be blank until you do.
 
 ## 5. One-click "Add design to cart" from KeyCapForge
 

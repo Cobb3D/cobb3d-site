@@ -5,7 +5,7 @@ compatibility_date = "2025-01-01"
 [vars]
 SQUARE_ENV = "sandbox"          # change to "production" when you go live
 SQUARE_LOCATION_ID = ""         # from Square Developer Dashboard → Locations
-SITE_URL = "https://cobb3d.github.io/cobb3d-site"   # your site's address, no trailing slash
+SITE_URL = "https://cobb3dprinting.com"   # your site's address, no trailing slash
 SHIPPING_FLAT = ""              # optional, e.g. "4.99"
 TAX_PERCENT = ""                # optional, e.g. "5.5"
 

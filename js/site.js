@@ -81,7 +81,7 @@
       const bg = i % 2 ? theme.b : theme.a;
       let fg = theme.fg;
       if (fg === 'auto') fg = bg.toUpperCase() === '#FFFFFF' ? '#16181D' : '#FFFFFF';
-      if (theme.name === 'Classic' && i % 2) fg = '#16181D';
+      if (theme.name === 'Classic' && i % 2) fg = '#FFFFFF';
       return [l, bg, fg];
     });
   }
@@ -92,7 +92,7 @@
   }
   function productCaps(s, p, letters, themeName) {
     if (p.preview && !letters) return { caps: p.preview.caps, base: p.preview.base };
-    const theme = findTheme(s, themeName || p.fixedTheme || 'Classic') || findTheme(s, 'Classic') || { a: '#fff', b: '#FF6A1A', fg: '#16181D', base: '#16181D', name: 'Classic' };
+    const theme = findTheme(s, themeName || p.fixedTheme || 'Classic') || findTheme(s, 'Classic') || { a: '#fff', b: '#1F5FCC', fg: '#16181D', base: '#16181D', name: 'Classic' };
     const text = (letters || (p.letters && p.letters.default) || 'A').slice(0, 6);
     return { caps: themeCaps(text, theme), base: theme.base };
   }
@@ -375,7 +375,7 @@
         const unit = unitPrice(s, it);
         if (unit == null) unknown = true; else subtotal += unit * it.qty;
         let thumb;
-        if (isCustom) thumb = '<div class="thumb" style="background:#FFE3D2">' + keycapHTML([['K', '#fff', '#16181D'], ['C', '#FF6A1A', '#16181D'], ['F', '#fff', '#16181D']].slice(0, Math.min(3, it.custom.keys || 1)), '#16181D') + '</div>';
+        if (isCustom) thumb = '<div class="thumb" style="background:#DCE7F9">' + keycapHTML([['K', '#fff', '#16181D'], ['C', '#1F5FCC', '#FFFFFF'], ['F', '#fff', '#16181D']].slice(0, Math.min(3, it.custom.keys || 1)), '#16181D') + '</div>';
         else if (p) thumb = '<div class="thumb" style="background:' + esc(category(s, p.category).tint) + '">' + mediaHTML(s, p, { letters: it.opts && it.opts.letters, theme: it.opts && it.opts.theme }) + '</div>';
         else thumb = '<div class="thumb" style="background:#E9E5DE"></div>';
         return '<div class="line" data-idx="' + idx + '">' + thumb +

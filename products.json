@@ -4,7 +4,7 @@
     "tagline": "Small-batch 3D printing. Home of KeyCapForge.",
     "currency": "USD",
     "checkoutEndpoint": "",
-    "designerUrl": "https://cobb3d.github.io/KeyCapForgeWeb/",
+    "designerUrl": "https://design.cobb3dprinting.com/",
     "etsyUrl": "",
     "contactEmail": "",
     "shipping": { "name": "Shipping", "price": null },
@@ -12,7 +12,7 @@
   },
 
   "categories": [
-    { "id": "keychains", "name": "Keycap keychains", "blurb": "Real switches, your letters or logo", "tint": "#FFE3D2" },
+    { "id": "keychains", "name": "Keycap keychains", "blurb": "Real switches, your letters or logo", "tint": "#DCE7F9" },
     { "id": "dragons", "name": "Fidget dragons", "blurb": "Articulated and endlessly poseable", "tint": "#DDEEDD" },
     { "id": "minis", "name": "Mini figures", "blurb": "Desk-sized characters", "tint": "#ECE6F5" },
     { "id": "other", "name": "Other models", "blurb": "Everything else off the printers", "tint": "#E9E5DE" }
@@ -26,7 +26,7 @@
     "theme": {
       "label": "Theme",
       "choices": [
-        { "name": "Classic", "a": "#FFFFFF", "b": "#FF6A1A", "fg": "#16181D", "base": "#16181D" },
+        { "name": "Classic", "a": "#FFFFFF", "b": "#1F5FCC", "fg": "#16181D", "base": "#16181D" },
         { "name": "Cow", "a": "#FFFFFF", "b": "#16181D", "fg": "auto", "base": "#2B2F36" },
         { "name": "Woodland Camo", "a": "#7C8F55", "b": "#5B4632", "fg": "#F1EBDD", "base": "#4B5A3A" },
         { "name": "Navy Camo", "a": "#3E5478", "b": "#1B2840", "fg": "#FFFFFF", "base": "#23324D" },
