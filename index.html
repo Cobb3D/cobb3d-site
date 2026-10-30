@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cobb3D Printing · Keycap keychains, fidget dragons and mini figures</title>
+<meta name="description" content="3D-printed keycap keychains with real Cherry MX switches, articulated fidget dragons and mini figures. Design your own in KeyCapForge.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="home">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="index.html"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7z" fill="#FF6A1A" stroke="#16181D" stroke-width="1.6"/></svg><span>Cobb3D</span></a>
+  <nav class="main-nav" aria-label="Main">
+    <a href="shop.html">Shop</a>
+    <a href="designer.html">Design your own</a>
+    <a href="shop.html?cat=dragons">Fidget dragons</a>
+    <a href="shop.html?cat=minis">Mini figures</a>
+  </nav>
+  <a class="cart-link" href="cart.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 7h14l-1.5 12h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Cart <span class="count" data-cart-count>0</span></a>
+</div></header>
+
+<main id="main">
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">3D-printed · real Cherry MX switches</p>
+        <h1 class="h-xl">Keychains that actually click.</h1>
+        <p class="lead">Keycap keychains built around a real mechanical switch, plus articulated fidget dragons, mini figures and more. Shop ready-made, or design your own keychain in KeyCapForge.</p>
+        <div class="cta-row">
+          <a class="btn btn-accent" href="designer.html">Design yours</a>
+          <a class="btn btn-dark" href="shop.html">Shop everything</a>
+        </div>
+      </div>
+      <div class="stage" aria-hidden="true">
+        <div class="kc-base kc-lg tilt" style="background:#16181D">
+          <span class="kc-cap" style="background:#FF6A1A;color:#16181D">C</span>
+          <span class="kc-cap" style="background:#FFFFFF;color:#16181D">O</span>
+          <span class="kc-cap" style="background:#FFFFFF;color:#16181D">B</span>
+          <span class="kc-cap" style="background:#3D7BD9;color:#FFFFFF">B</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="strip" aria-label="Why Cobb3D"><div class="wrap">
+    <div class="perk"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M12 9v6M9 12h6"/></svg><p><strong>Real Cherry MX switches</strong><span class="muted">Linear, tactile or clicky.</span></p></div>
+    <div class="perk"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="8" cy="9" r="4"/><circle cx="16" cy="9" r="4"/><circle cx="12" cy="16" r="4"/></svg><p><strong>Multi-color prints</strong><span class="muted">Legends, logos and themes in full color.</span></p></div>
+    <div class="perk"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16z"/></svg><p><strong>Printed to order</strong><span class="muted">Every piece made for you.</span></p></div>
+  </div></section>
+
+  <div class="wrap">
+    <section class="section">
+      <div class="section-head"><h2 class="h-lg">Popular right now</h2><a href="shop.html" style="font-weight:600;padding:10px 0">View all products →</a></div>
+      <div class="grid" id="featured"></div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="band">
+        <div>
+          <p class="eyebrow">KeyCapForge · free in your browser</p>
+          <h2 class="h-lg">Design it. We print it.</h2>
+          <p style="font-size:17px;line-height:1.6;margin:0 0 28px">Type your letters or drop in a logo, pick a theme and shape, and watch it build in 3D. Download the STL/3MF to print it yourself, or add it to your cart and we’ll print it for you.</p>
+          <a class="btn btn-accent" href="designer.html">Open the designer</a>
+        </div>
+        <ol class="steps">
+          <li><b>1</b><p style="margin:0"><strong>Letters or logo</strong><span>One letter per cap, emoji, or an imported PNG</span></p></li>
+          <li><b>2</b><p style="margin:0"><strong>Theme, shape, fit</strong><span>Cow, camo, custom colors · heart, hex, star caps</span></p></li>
+          <li><b>3</b><p style="margin:0"><strong>Add to cart</strong><span>Check out securely and we print it</span></p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <h2 class="h-lg">Shop by type</h2>
+      <div class="tiles" id="tiles"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="wrap">
+  <div><p style="font-family:var(--display);font-weight:700;font-size:20px" data-store-name>Cobb3D Printing</p><p class="muted">Small-batch 3D printing. Home of KeyCapForge.</p><p class="muted" style="font-size:14px">© <span data-year></span> Cobb3D Printing</p></div>
+  <nav aria-label="Footer"><a href="shop.html">Shop</a><a href="designer.html">KeyCapForge</a><a href="#" data-etsy hidden>Etsy shop</a><a href="#" data-contact hidden>Contact</a></nav>
+</div></footer>
+<script src="js/site.js" defer></script>
+</body>
+</html>

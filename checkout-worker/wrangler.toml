@@ -1,0 +1,13 @@
+name = "cobb3d-checkout"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+SQUARE_ENV = "sandbox"          # change to "production" when you go live
+SQUARE_LOCATION_ID = ""         # from Square Developer Dashboard → Locations
+SITE_URL = "https://cobb3d.github.io/cobb3d-site"   # your site's address, no trailing slash
+SHIPPING_FLAT = ""              # optional, e.g. "4.99"
+TAX_PERCENT = ""                # optional, e.g. "5.5"
+
+# The access token is a secret. Set it with:
+#   npx wrangler secret put SQUARE_ACCESS_TOKEN

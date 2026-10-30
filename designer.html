@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KeyCapForge designer · Cobb3D Printing</title>
+<meta name="description" content="Design your own keycap fidget keychain in KeyCapForge, then have Cobb3D Printing print it with real Cherry MX switches.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="designer">
+<a class="skip" href="#order">Skip to order form</a>
+<header class="site-header"><div class="wrap" style="max-width:none">
+  <a class="brand" href="index.html"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7z" fill="#FF6A1A" stroke="#16181D" stroke-width="1.6"/></svg><span>Cobb3D</span></a>
+  <nav class="main-nav" aria-label="Main">
+    <a href="shop.html">Shop</a>
+    <a href="designer.html" aria-current="page">Design your own</a>
+    <a href="shop.html?cat=dragons">Fidget dragons</a>
+    <a href="shop.html?cat=minis">Mini figures</a>
+  </nav>
+  <a class="cart-link" href="cart.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 7h14l-1.5 12h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Cart <span class="count" data-cart-count>0</span></a>
+</div></header>
+
+<main id="main" class="designer">
+  <section class="designer-frame" aria-label="KeyCapForge designer">
+    <iframe id="kcf" title="KeyCapForge keychain designer" allow="clipboard-write; fullscreen" loading="eager"></iframe>
+  </section>
+
+  <aside class="order-panel" id="order" aria-label="Order this design">
+    <div>
+      <p class="eyebrow" style="margin-bottom:8px">Have us print it</p>
+      <h2>Order your design</h2>
+    </div>
+    <p class="muted" style="margin:0;font-size:15px">Build your keychain on the left. When it looks right, set the key count and switch here and add it to your cart.</p>
+
+    <p class="alert ok received" id="d-received" role="status">Design received from KeyCapForge.</p>
+
+    <div>
+      <label class="field-label" for="d-keys">Number of keys</label>
+      <input id="d-keys" class="inp" type="number" min="1" max="8" value="4" inputmode="numeric">
+    </div>
+    <div>
+      <label class="field-label" for="d-switch">Switch</label>
+      <select id="d-switch" class="inp"></select>
+    </div>
+    <div>
+      <label class="field-label" for="d-design">Design link or code <span class="muted" style="font-weight:400">(optional)</span></label>
+      <textarea id="d-design" class="inp" rows="3" placeholder="Fills in automatically when KeyCapForge sends it"></textarea>
+    </div>
+    <div>
+      <label class="field-label" for="d-notes">Notes</label>
+      <textarea id="d-notes" class="inp" rows="3" placeholder="Colors, letters, anything we should know"></textarea>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+      <span class="muted">Price</span><strong id="d-price" style="font-size:22px">—</strong>
+    </div>
+    <button type="button" class="btn btn-accent" id="d-add">Add design to cart</button>
+    <p class="alert ok" id="d-added" role="status" hidden>Added. <a href="cart.html">View cart</a></p>
+    <p class="muted" style="font-size:13px;margin:0">You can also export the STL/3MF from the designer and print it yourself, free.</p>
+  </aside>
+</main>
+<script src="js/site.js" defer></script>
+</body>
+</html>

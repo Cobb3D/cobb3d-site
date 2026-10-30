@@ -1,0 +1,140 @@
+{
+  "store": {
+    "name": "Cobb3D Printing",
+    "tagline": "Small-batch 3D printing. Home of KeyCapForge.",
+    "currency": "USD",
+    "checkoutEndpoint": "",
+    "designerUrl": "https://cobb3d.github.io/KeyCapForgeWeb/",
+    "etsyUrl": "",
+    "contactEmail": "",
+    "shipping": { "name": "Shipping", "price": null },
+    "shipsIn": "[X] business days"
+  },
+
+  "categories": [
+    { "id": "keychains", "name": "Keycap keychains", "blurb": "Real switches, your letters or logo", "tint": "#FFE3D2" },
+    { "id": "dragons", "name": "Fidget dragons", "blurb": "Articulated and endlessly poseable", "tint": "#DDEEDD" },
+    { "id": "minis", "name": "Mini figures", "blurb": "Desk-sized characters", "tint": "#ECE6F5" },
+    { "id": "other", "name": "Other models", "blurb": "Everything else off the printers", "tint": "#E9E5DE" }
+  ],
+
+  "options": {
+    "switch": {
+      "label": "Switch",
+      "choices": ["Cherry MX Red (linear)", "Cherry MX Brown (tactile)", "Cherry MX Blue (clicky)"]
+    },
+    "theme": {
+      "label": "Theme",
+      "choices": [
+        { "name": "Classic", "a": "#FFFFFF", "b": "#FF6A1A", "fg": "#16181D", "base": "#16181D" },
+        { "name": "Cow", "a": "#FFFFFF", "b": "#16181D", "fg": "auto", "base": "#2B2F36" },
+        { "name": "Woodland Camo", "a": "#7C8F55", "b": "#5B4632", "fg": "#F1EBDD", "base": "#4B5A3A" },
+        { "name": "Navy Camo", "a": "#3E5478", "b": "#1B2840", "fg": "#FFFFFF", "base": "#23324D" },
+        { "name": "Snow Camo", "a": "#FFFFFF", "b": "#DDE2E8", "fg": "#4A5563", "base": "#B9C0C9" },
+        { "name": "Grass Block", "a": "#5FA03A", "b": "#4E8A2E", "fg": "#1E3311", "base": "#7A5634" }
+      ]
+    },
+    "color": {
+      "label": "Color",
+      "choices": [
+        { "name": "Black", "hex": "#16181D" },
+        { "name": "White", "hex": "#FFFFFF" },
+        { "name": "Orange", "hex": "#FF6A1A" },
+        { "name": "Blue", "hex": "#3D7BD9" },
+        { "name": "Green", "hex": "#2FA36B" },
+        { "name": "Purple", "hex": "#7B4FC9" },
+        { "name": "Silk Rainbow", "hex": "linear-gradient(135deg,#ff5f6d,#ffc371,#47e891,#3d7bd9,#b05cff)" }
+      ]
+    }
+  },
+
+  "customDesign": {
+    "name": "Custom KeyCapForge design",
+    "basePrice": null,
+    "perKey": null,
+    "maxKeys": 8
+  },
+
+  "products": [
+    {
+      "id": "custom-letter-keychain",
+      "name": "Custom Letter Keychain",
+      "category": "keychains",
+      "price": null,
+      "featured": true,
+      "badge": "Personalize",
+      "description": "Up to six letters, one per key, each on a real Cherry MX switch you can press all day. Printed to order in the theme you choose.",
+      "images": [],
+      "options": ["letters", "theme", "switch"],
+      "letters": { "max": 6, "default": "YOU" },
+      "specs": { "Material": "[MATERIAL]", "Size": "Depends on letter count", "Keyring": "Included" }
+    },
+    {
+      "id": "articulated-fidget-dragon",
+      "name": "Articulated Fidget Dragon",
+      "category": "dragons",
+      "price": null,
+      "featured": true,
+      "badge": "Pick your color",
+      "description": "[DESCRIPTION] A fully articulated, print-in-place dragon that wiggles, curls and poses.",
+      "images": [],
+      "options": ["color", "size"],
+      "sizes": [
+        { "name": "Standard", "price": null },
+        { "name": "XL", "price": null }
+      ],
+      "specs": { "Material": "[MATERIAL]", "Length": "[LENGTH]" }
+    },
+    {
+      "id": "logo-clicker",
+      "name": "Logo Clicker",
+      "category": "keychains",
+      "price": null,
+      "featured": true,
+      "badge": "Personalize",
+      "description": "Your logo printed in up to three colors on one big key over a real Cherry MX switch. Design it in KeyCapForge, then add it to your cart.",
+      "images": [],
+      "options": ["switch"],
+      "designLink": true,
+      "preview": { "base": "#3D7BD9", "caps": [["C3", "#FFFFFF", "#3D7BD9"]] },
+      "specs": { "Material": "[MATERIAL]", "Size": "[DIMENSIONS]" }
+    },
+    {
+      "id": "mini-figure",
+      "name": "[MINI FIGURE NAME]",
+      "category": "minis",
+      "price": null,
+      "featured": true,
+      "description": "[DESCRIPTION]",
+      "images": [],
+      "options": ["color"],
+      "specs": { "Material": "[MATERIAL]", "Height": "[HEIGHT]" }
+    },
+    {
+      "id": "cow-theme-set",
+      "name": "Cow Theme Set",
+      "category": "keychains",
+      "price": null,
+      "badge": "Personalize",
+      "description": "Black-and-white cow styling on a real clicky keychain. Spell whatever you like.",
+      "images": [],
+      "options": ["letters", "switch"],
+      "letters": { "max": 6, "default": "MOO" },
+      "fixedTheme": "Cow",
+      "specs": { "Material": "[MATERIAL]", "Keyring": "Included" }
+    },
+    {
+      "id": "woodland-camo-set",
+      "name": "Woodland Camo Set",
+      "category": "keychains",
+      "price": null,
+      "badge": "Personalize",
+      "description": "Woodland camo caps and base. Pick your letters and switch.",
+      "images": [],
+      "options": ["letters", "switch"],
+      "letters": { "max": 6, "default": "GO" },
+      "fixedTheme": "Woodland Camo",
+      "specs": { "Material": "[MATERIAL]", "Keyring": "Included" }
+    }
+  ]
+}
