@@ -97,6 +97,10 @@ if (window.parent !== window) {
 
 The site only accepts these messages from the address in `store.designerUrl`. Designs land in the Square order note, so you can rebuild the 3MF from them.
 
+## Making sure visitors see your changes
+
+Browsers (Safari especially) hold on to old copies of `css/site.css` and `js/site.js`. Every page loads them as `site.css?v=2026103001` and `site.js?v=2026103001`. After you change either file, change that number in all the pages (VS Code: **Edit → Replace in Files**, `v=2026103001` → a new number such as today's date), so browsers fetch the new version straight away.
+
 ## Notes
 
 - To preview locally, run `python3 -m http.server` in this folder and open http://localhost:8000. Opening the files directly won't load `products.json`.
