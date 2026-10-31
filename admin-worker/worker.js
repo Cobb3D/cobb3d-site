@@ -16,6 +16,7 @@
  *   GITHUB_CLIENT_SECRET from your GitHub OAuth App             (secret)
  *   GITHUB_TOKEN         fine-grained token, site repo only, Contents read & write (secret)
  *   SESSION_SECRET       any long random string                (secret)
+ *   FB_PAGE_TOKEN        Facebook Page access token (optional; turns on the home-page photo grid) (secret)
  */
 
 const GH_API = 'https://api.github.com';
@@ -47,6 +48,10 @@ export default {
         requireSameSite(request, siteOrigin);
         return json({ ok: true }, 200, cors, [cookie(SESSION_COOKIE, '', 0, '/')]);
       }
+
+      // ----- public: latest Facebook Page photos for the home page -----
+      if (url.pathname === '/fb/photos' && request.method === 'GET') return await fbPhotos(request, env, url, cors);
+      if (url.pathname === '/fb/img' && request.method === 'GET') return await fbImage(request, url);
 
       // ----- everything below needs a signed-in admin -----
       const who = await readSession(request, env);
@@ -91,6 +96,74 @@ export default {
     }
   },
 };
+
+// ---------- Facebook Page photos ----------
+// The home page asks for /fb/photos; the list is fetched from Facebook at most once an hour
+// and every picture is passed through /fb/img, so visitors' browsers never contact Facebook.
+const FB_CACHE_SECONDS = 3600;
+let fbLastGood = null;
+async function fbPhotos(request, env, url, cors) {
+  if (!env.FB_PAGE_TOKEN) return json({ photos: [], enabled: false }, 200, cors);
+  const cache = caches.default;
+  const key = new Request(url.origin + '/fb/photos');
+  const hit = await cache.match(key);
+  if (hit) return withHeaders(hit, cors);
+  let photos;
+  try {
+    const fb = new URL('https://graph.facebook.com/me/photos');
+    fb.searchParams.set('type', 'uploaded');
+    fb.searchParams.set('fields', 'images,link,name,created_time');
+    fb.searchParams.set('limit', '12');
+    fb.searchParams.set('access_token', env.FB_PAGE_TOKEN);
+    const res = await fetch(fb.toString());
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !Array.isArray(data.data)) {
+      console.error('Facebook photos error', res.status, JSON.stringify(data.error || {}).slice(0, 300));
+      throw new Error('facebook');
+    }
+    photos = data.data.map((ph) => {
+      const imgs = (ph.images || []).slice().sort((x, y) => x.width - y.width);
+      const pick = imgs.find((i) => i.width >= 720) || imgs[imgs.length - 1];
+      if (!pick || !isFbCdn(pick.source)) return null;
+      return {
+        img: url.origin + '/fb/img?u=' + encodeURIComponent(pick.source),
+        w: pick.width, h: pick.height,
+        link: /^https:\/\/(www\.)?facebook\.com\//.test(ph.link || '') ? ph.link : null,
+        caption: String(ph.name || '').slice(0, 280),
+        date: ph.created_time || null,
+      };
+    }).filter(Boolean);
+    fbLastGood = photos;
+  } catch (e) {
+    if (fbLastGood) return json({ photos: fbLastGood, enabled: true, stale: true }, 200, cors);
+    return json({ photos: [], enabled: true, error: 'unavailable' }, 200, cors);
+  }
+  const fresh = new Response(JSON.stringify({ photos, enabled: true }), { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=' + FB_CACHE_SECONDS } });
+  await cache.put(key, fresh.clone());
+  return withHeaders(fresh, cors);
+}
+function isFbCdn(u) {
+  try { const h = new URL(u); return h.protocol === 'https:' && (h.hostname.endsWith('.fbcdn.net') || h.hostname === 'fbcdn.net'); } catch (e) { return false; }
+}
+async function fbImage(request, url) {
+  const src = url.searchParams.get('u') || '';
+  if (!isFbCdn(src)) return new Response('Not found', { status: 404 });
+  const cache = caches.default;
+  const key = new Request(url.toString());
+  const hit = await cache.match(key);
+  if (hit) return hit;
+  const res = await fetch(src);
+  const type = res.headers.get('Content-Type') || '';
+  if (!res.ok || !/^image\/(jpeg|png|webp|gif)/.test(type)) return new Response('Not found', { status: 404 });
+  const out = new Response(res.body, { headers: { 'Content-Type': type, 'Cache-Control': 'public, max-age=86400', 'X-Content-Type-Options': 'nosniff' } });
+  await cache.put(key, out.clone());
+  return out;
+}
+function withHeaders(res, extra) {
+  const h = new Headers(res.headers);
+  Object.entries(extra).forEach(([k, v]) => h.set(k, v));
+  return new Response(res.body, { status: res.status, headers: h });
+}
 
 // ---------- GitHub sign-in ----------
 function login(url, env) {

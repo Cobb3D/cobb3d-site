@@ -131,10 +131,35 @@
     const featured = s.products.filter((p) => p.featured).slice(0, 4);
     const grid = $('#featured');
     if (grid) grid.innerHTML = (featured.length ? featured : s.products.slice(0, 4)).map((p) => cardHTML(s, p)).join('');
+    loadFacebookPhotos(s);
     const tiles = $('#tiles');
     if (tiles) tiles.innerHTML = s.categories.map((c) =>
       '<a class="tile tinted" href="shop.html?cat=' + encodeURIComponent(c.id) + '" style="--tint:' + esc(c.tint) + '"><strong>' + esc(c.name) + '</strong><span>' + esc(c.blurb || '') + '</span></a>'
     ).join('');
+  }
+
+  // Latest Facebook Page photos (served by the admin service, which caches them hourly)
+  async function loadFacebookPhotos(s) {
+    const sec = $('#fb-section'), grid = $('#fb-grid');
+    if (!sec || !grid) return;
+    const apiBase = ((s.store && s.store.adminApi) || '').replace(/\/+$/, '');
+    if (s.store.facebookUrl) { const f = $('#fb-follow'); f.href = s.store.facebookUrl; f.hidden = false; f.target = '_blank'; f.rel = 'noopener'; }
+    if (!apiBase) return;
+    let photos = [];
+    try {
+      const r = await fetch(apiBase + '/fb/photos');
+      if (r.ok) photos = ((await r.json()).photos || []).slice(0, 8);
+    } catch (e) { photos = []; }
+    if (!photos.length) return;
+    grid.innerHTML = photos.map((ph) => {
+      const alt = ph.caption ? ph.caption.slice(0, 120) : 'Recent print from Cobb3D';
+      const img = '<img src="' + esc(ph.img) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">';
+      const cap = ph.caption ? '<span class="fb-cap">' + esc(ph.caption) + '</span>' : '';
+      return ph.link
+        ? '<a class="fb-tile" href="' + esc(ph.link) + '" target="_blank" rel="noopener">' + img + cap + '</a>'
+        : '<div class="fb-tile">' + img + cap + '</div>';
+    }).join('');
+    sec.hidden = false;
   }
 
   async function pageShop() {
@@ -519,6 +544,7 @@
         document.body.insertAdjacentHTML('afterbegin', '<div class="site-banner" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>' + esc(s.store.banner) + '</span></div>');
       }
       $$('[data-etsy]').forEach((el) => { if (s.store.etsyUrl) { el.href = s.store.etsyUrl; el.hidden = false; } });
+      $$('[data-facebook]').forEach((el) => { if (s.store.facebookUrl) { el.href = s.store.facebookUrl; el.hidden = false; } });
       $$('[data-contact]').forEach((el) => { if (s.store.contactEmail) { el.href = 'mailto:' + s.store.contactEmail; el.hidden = false; } });
       $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
       if (pages[page]) await pages[page]();

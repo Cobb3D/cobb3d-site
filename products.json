@@ -8,6 +8,7 @@
     "adminApi": "https://api.cobb3dprinting.com",
     "designerUrl": "https://design.cobb3dprinting.com/",
     "etsyUrl": "",
+    "facebookUrl": "",
     "contactEmail": "",
     "shipping": { "name": "Shipping", "price": null },
     "shipsIn": "[X] business days"

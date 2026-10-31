@@ -281,6 +281,7 @@
         '<label class="field-label" for="s-banner">Banner text</label><input id="s-banner" class="inp" value="' + val(s.banner) + '"></section>' +
       '<section class="panel"><h2>Contact &amp; links</h2><div class="admin-grid" style="margin-top:14px">' +
         '<div><label class="field-label" for="s-email">Contact email</label><input id="s-email" class="inp" type="email" value="' + val(s.contactEmail) + '"></div>' +
+        '<div><label class="field-label" for="s-fb">Facebook Page link</label><input id="s-fb" class="inp" type="url" placeholder="https://www.facebook.com/…" value="' + val(s.facebookUrl) + '"></div>' +
         '<div><label class="field-label" for="s-etsy">Etsy shop link</label><input id="s-etsy" class="inp" type="url" placeholder="https://www.etsy.com/shop/…" value="' + val(s.etsyUrl) + '"></div>' +
       '</div></section>' +
       '<section class="panel"><h2>Shipping</h2><div class="admin-grid" style="margin-top:14px">' +
@@ -308,7 +309,7 @@
         choices.push({ name, hex });
       }
       const next = JSON.parse(JSON.stringify(data));
-      Object.assign(next.store, { banner: v('s-banner'), contactEmail: v('s-email'), etsyUrl: v('s-etsy'), shipsIn: v('s-shipsin') });
+      Object.assign(next.store, { banner: v('s-banner'), contactEmail: v('s-email'), etsyUrl: v('s-etsy'), facebookUrl: v('s-fb'), shipsIn: v('s-shipsin') });
       next.store.shipping = Object.assign({ name: 'Shipping' }, next.store.shipping || {}, { price: num('s-ship') });
       next.customDesign = Object.assign({}, next.customDesign || {}, { basePrice: num('s-base'), perKey: num('s-perkey'), maxKeys: Math.max(1, parseInt(v('s-maxkeys'), 10) || 8) });
       next.options.color = Object.assign({ label: 'Color' }, next.options.color || {}, { choices });
