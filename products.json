@@ -211,8 +211,14 @@
       "featured": true,
       "badge": "Personalize",
       "description": "Your logo printed in up to three colors on one big key over a real Cherry MX switch. Design it in KeyCapForge, then add it to your cart.",
-      "images": [],
+      "images": [
+        "images/products/20261031-screenshot-2026-10-31-at-3-40-00-pm-eff11f.jpg"
+      ],
       "options": [],
+      "specs": {
+        "Material": "[MATERIAL]",
+        "Size": "[DIMENSIONS]"
+      },
       "designLink": true,
       "preview": {
         "base": "#3D7BD9",
@@ -223,10 +229,6 @@
             "#3D7BD9"
           ]
         ]
-      },
-      "specs": {
-        "Material": "[MATERIAL]",
-        "Size": "[DIMENSIONS]"
       }
     },
     {
