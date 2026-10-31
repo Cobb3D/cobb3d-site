@@ -1,20 +1,20 @@
 /**
- * Cobb3D admin service — a Cloudflare Worker at https://api.cobb3dprinting.com
+ * Cobb3D admin service (Cloudflare Worker)
  *
  * What it does:
  *   - "Sign in with GitHub", and only lets in the GitHub accounts listed in ALLOWED_LOGINS.
  *   - Keeps you signed in with a signed, HttpOnly cookie (30 days).
  *   - Reads and saves the site's products.json, and uploads product photos,
- *     by committing to the cobb3d-site GitHub repo. GitHub Pages then republishes.
+ *     by committing to the site's GitHub repo.
  *
  * Settings (Cloudflare → Workers & Pages → cobb3d-admin → Settings → Variables and Secrets):
- *   SITE_URL             https://cobb3dprinting.com            (text)
- *   REPO                 Cobb3D/cobb3d-site                    (text)
+ *   SITE_URL             the site's address                    (text)
+ *   REPO                 owner/repo of the site                (text)
  *   BRANCH               main                                  (text)
- *   ALLOWED_LOGINS       Cobb3D                                (text; comma-separated GitHub usernames)
+ *   ALLOWED_LOGINS       GitHub usernames allowed in           (text; comma-separated)
  *   GITHUB_CLIENT_ID     from your GitHub OAuth App             (text)
  *   GITHUB_CLIENT_SECRET from your GitHub OAuth App             (secret)
- *   GITHUB_TOKEN         fine-grained token: cobb3d-site only, Contents read & write (secret)
+ *   GITHUB_TOKEN         fine-grained token, site repo only, Contents read & write (secret)
  *   SESSION_SECRET       any long random string                (secret)
  */
 

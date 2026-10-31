@@ -9,7 +9,7 @@ routes = [{ pattern = "api.cobb3dprinting.com", custom_domain = true }]
 SITE_URL = "https://cobb3dprinting.com"
 REPO = "Cobb3D/cobb3d-site"
 BRANCH = "main"
-ALLOWED_LOGINS = "Cobb3D"
+ALLOWED_LOGINS = ""     # set in the Cloudflare dashboard
 GITHUB_CLIENT_ID = ""   # from your GitHub OAuth App
 
 # Secrets (never put these in this file):
