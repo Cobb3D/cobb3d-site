@@ -163,16 +163,34 @@
       "category": "dragons",
       "price": null,
       "featured": true,
-      "badge": "Pick your color",
+      "badge": "Pick your colors",
       "description": "[DESCRIPTION] A fully articulated, print-in-place dragon that wiggles, curls and poses.",
-      "images": [],
+      "images": [
+        "images/products/20261031-img-1688-6c16d0.jpg"
+      ],
       "options": [
         "color",
         "size"
       ],
       "sizes": [
         {
-          "name": "Standard",
+          "name": "Baby $8",
+          "price": null
+        },
+        {
+          "name": "Medium $20",
+          "price": null
+        },
+        {
+          "name": "Large $30",
+          "price": null
+        },
+        {
+          "name": "Large w/ Wings 40",
+          "price": null
+        },
+        {
+          "name": "XL $50",
           "price": null
         },
         {
