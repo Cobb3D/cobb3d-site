@@ -15,6 +15,8 @@ The storefront for Cobb3D Printing: home page, shop, a product page that builds 
 | `cart.html` / `thanks.html` | Cart, and the after-checkout page |
 | `products.json` | Products, prices, categories and store settings |
 | `css/site.css`, `js/site.js` | Styles and the shared script |
+| `cookie-cutters.html`, `css/cutter.css`, `js/cutter-*.js` | Cookie & clay cutter maker (runs entirely in the visitor's browser) |
+| `tests/cookie-cutter.test.js` | Checks every cutter model is watertight: `node tests/cookie-cutter.test.js` |
 | `checkout-worker/`, `admin-worker/` | Small server-side helpers. Their settings and keys are kept outside this repo. |
 
 ## Previewing locally

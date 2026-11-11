@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie &amp; Clay Cutter Maker | Cobb3D Printing</title>
+<meta name="description" content="Turn any picture into a 3D-printable cookie or clay cutter. Upload an image, adjust the outline, download an STL.">
+<link rel="icon" href="favicon.ico?v=2026103101" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="images/brand/favicon-32.png?v=2026103101">
+<link rel="icon" type="image/png" sizes="192x192" href="images/brand/favicon-192.png?v=2026103101">
+<link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png?v=2026103101">
+<script>
+  // Same light/dark choice as the rest of cobb3dprinting.com
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('cobb3d.pageTheme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+    document.documentElement.dataset.theme = t;
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="css/cutter.css?v=2026111101">
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Cobb3D</span></a>
+  <nav class="main-nav" aria-label="Main">
+    <a href="shop.html">Shop</a>
+    <a href="designer.html">Design your own</a>
+    <a href="shop.html?cat=dragons">Fidget dragons</a>
+    <a href="shop.html?cat=minis">Mini figures</a>
+    <a href="cookie-cutters.html" aria-current="page">Cookie cutters</a>
+  </nav>
+  <button type="button" class="news-link" id="newsBtn">What’s new<span class="dot" id="newsDot" hidden></span></button>
+  <button type="button" class="theme-btn" id="themeBtn" title="Switch look" aria-label="Switch between light and dark look"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.6.5 1 1.2 1.1 2V17h5.6v-.8c.1-.8.5-1.5 1.1-2A6.5 6.5 0 0 0 12 2.5z"></path><path class="bulb-base" d="M9.4 18.5h5.2M9.9 20.5h4.2"></path><path class="bulb-rays" d="M12 .2v1.1M3.4 3.6l.8.8M20.6 3.6l-.8.8M1 9.5h1.2M21.8 9.5H23"></path></svg></button>
+  <a class="cart-link" href="cart.html" aria-label="Cart"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 7h14l-1.5 12h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="cart-label">Cart</span> <span class="count" data-cart-count>0</span></a>
+</div></header>
+<div class="intro">
+  <h1>Cookie &amp; clay cutter maker</h1>
+  <p>Upload a picture, get a 3D-printable cutter. Your image never leaves your device.</p>
+</div>
+
+<main>
+  <aside class="panel">
+    <section class="step">
+      <h2><b>1</b> Picture or shape</h2>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept="image/*" hidden>
+        <strong>Drop an image here or tap to choose</strong>
+        <small>Silhouettes, logos and drawings on a plain background work best</small>
+      </label>
+      <div class="samples">No picture? Pick a ready-made shape:</div>
+      <div id="shapes"></div>
+    </section>
+
+    <section class="step" id="step2">
+      <h2><b>2</b> Outline</h2>
+      <select id="mode">
+        <option value="auto">Auto-detect</option>
+        <option value="dark">Dark shape on light background</option>
+        <option value="light">Light shape on dark background</option>
+        <option value="alpha">Transparent PNG</option>
+      </select>
+      <label class="row">Threshold <output id="thresholdOut"></output><input type="range" id="threshold" min="1" max="254" value="128"></label>
+      <label class="row">Fill gaps &amp; notches <output id="closeOut"></output><input type="range" id="close" min="0" max="5" step="0.1" value="0.6"></label>
+      <label class="row">Round off thin points <output id="openOut"></output><input type="range" id="open" min="0" max="4" step="0.1" value="0.4"></label>
+      <details><summary>More</summary>
+        <label class="row">Image blur <output id="blurOut"></output><input type="range" id="blur" min="0" max="8" step="1" value="1"></label>
+        <p class="hint">Only the largest shape is used and any holes inside it are filled, since a cutter has one outline.</p>
+      </details>
+    </section>
+
+    <section class="step">
+      <h2><b>3</b> Cutter</h2>
+      <div class="seg" id="preset">
+        <button data-p="cookie" class="on">Cookie</button><button data-p="clay">Clay</button><button data-p="mini">Mini</button>
+      </div>
+      <label class="row">Size (longest side) <output id="sizeOut"></output><input type="range" id="size" min="25" max="200" step="1" value="80"></label>
+      <label class="row">Cutting depth <output id="heightOut"></output><input type="range" id="height" min="6" max="30" step="0.5" value="15"></label>
+      <label class="row">Wall thickness <output id="wallOut"></output><input type="range" id="wall" min="0.6" max="2.4" step="0.1" value="1.2"></label>
+      <label class="row">Grip rim width <output id="flangeWOut"></output><input type="range" id="flangeW" min="0" max="10" step="0.5" value="4"></label>
+      <label class="row">Grip rim thickness <output id="flangeHOut"></output><input type="range" id="flangeH" min="0.8" max="4" step="0.2" value="2"></label>
+    </section>
+
+    <section class="step">
+      <h2><b>4</b> Inside detail</h2>
+      <select id="detail">
+        <option value="off">Off (outline only)</option>
+        <option value="shape">Stamp: raise the main color</option>
+        <option value="other">Stamp: raise the other colors</option>
+        <option value="edges">Stamp: raise every edge as a line</option>
+      </select>
+      <div id="detailOpts">
+        <label class="row" id="lineWRow">Line width <output id="lineWOut"></output><input type="range" id="lineW" min="0.6" max="3" step="0.1" value="1.2"></label>
+        <label class="row">Raised height <output id="reliefHOut"></output><input type="range" id="reliefH" min="1" max="5" step="0.5" value="2.5"></label>
+        <label class="row">Plate thickness <output id="plateHOut"></output><input type="range" id="plateH" min="1.6" max="4" step="0.2" value="2.4"></label>
+        <label class="row">Skip details thinner than <output id="detailMinOut"></output><input type="range" id="detailMin" min="0" max="2" step="0.1" value="0.6"></label>
+        <p class="hint">The stamp is a second piece that fits inside the cutter. Cut the cookie, then press the stamp in to imprint the design.</p>
+      </div>
+    </section>
+
+    <section class="step">
+      <h2><b>5</b> Download</h2>
+      <button class="primary" id="download" disabled>Download cutter STL</button>
+      <button class="secondary" id="downloadStamp" hidden>Download stamp STL</button>
+      <p class="hint">Print the cutter rim-side down and the stamp flat side down; no supports needed. Both are mirrored so the cookie matches your picture. PLA or PETG; use food-safe filament for cookies and wash by hand.</p>
+    </section>
+  </aside>
+
+  <div class="stage">
+    <div class="msg" id="msg"></div>
+    <div class="panel view">
+      <div class="bar"><b>Outline</b><span>shape · wall · rim · stamp detail</span></div>
+      <canvas id="trace"></canvas>
+      <div class="empty" id="emptyTrace">Choose a picture to get started</div>
+    </div>
+    <div class="panel view">
+      <div class="bar"><b>3D preview</b>
+        <div class="swatches" id="swatches">
+          <button style="background:#2f6fdb" data-c="#2f6fdb" class="on" title="Blue"></button>
+          <button style="background:#ffd866" data-c="#ffd866" title="Yellow"></button>
+          <button style="background:#f2c4d6" data-c="#f2c4d6" title="Pink"></button>
+          <button style="background:#e06a3b" data-c="#e06a3b" title="Orange"></button>
+          <button style="background:#9ccf8f" data-c="#9ccf8f" title="Green"></button>
+          <button style="background:#f4f1ea" data-c="#f4f1ea" title="White"></button>
+        </div>
+      </div>
+      <canvas id="gl"></canvas>
+      <div class="busy" id="busy">Updating…</div>
+      <div class="empty" id="empty3d">Drag to rotate · scroll to zoom</div>
+    </div>
+    <div class="stats">
+      <div class="panel stat"><span>Cookie size</span><b id="sCookie">—</b></div>
+      <div class="panel stat"><span>Overall footprint</span><b id="sOuter">—</b></div>
+      <div class="panel stat"><span>Height</span><b id="sHeight">—</b></div>
+      <div class="panel stat"><span>Pieces</span><b id="sTris">—</b></div>
+    </div>
+  </div>
+</main>
+<dialog id="news" aria-labelledby="newsTitle">
+  <div class="news-head">
+    <div><span class="news-tag" id="newsDate"></span><h2 id="newsTitle">What’s new</h2></div>
+    <button type="button" class="news-close" data-close aria-label="Close">×</button>
+  </div>
+  <ul class="news-list" id="newsList"></ul>
+  <div class="news-foot">
+    <button type="button" class="secondary" id="newsSample">Try a sample</button>
+    <button type="button" class="primary" data-close autofocus>Start making</button>
+  </div>
+</dialog>
+<footer>© Cobb3D Printing · <a href="index.html">Home</a> · <a href="shop.html">Shop</a> · <a href="designer.html">KeyCapForge</a> · <a href="admin.html">Owner login</a></footer>
+
+<script src="js/cutter-core.js?v=2026111101"></script>
+<script src="js/cutter-app.js?v=2026111101"></script>
+<script src="js/cutter-site.js?v=2026111101" defer></script>
+</body>
+</html>
